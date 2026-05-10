@@ -1,0 +1,25 @@
+package com.vmetrix.querymanager.api.response;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class MetadataEntityResponse {
+
+    private String entity;
+
+    private String physicalTable;
+
+    private String alias;
+
+    private List<MetadataFieldResponse> fields;
+
+    private List<MetadataRelationshipResponse> relations;
+}
