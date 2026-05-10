@@ -1,0 +1,15 @@
+package com.vmetrix.querymanager.query.resolver;
+
+import com.vmetrix.querymanager.metadata.model.RelationshipMetadata;
+import com.vmetrix.querymanager.metadata.model.ResolvedRelationship;
+
+public interface RelationshipResolver {
+
+    ResolvedRelationship resolve(
+            String relationshipAlias
+    );
+
+    RelationshipMetadata findRelationship(
+            String relationshipAlias
+    );
+}
