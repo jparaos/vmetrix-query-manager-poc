@@ -27,3 +27,8 @@ logging:
 
 server:
   port: 8080
+
+metadata:
+  entities-path: metadata/entities
+  relationships-path: metadata/relationships.json
+  comparators-path: metadata/comparators.json
