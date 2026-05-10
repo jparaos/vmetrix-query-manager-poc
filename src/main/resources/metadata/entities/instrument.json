@@ -1,0 +1,87 @@
+{
+  "entity": "instrument",
+  "physicalTable": "INSTRUMENT",
+  "alias": "i",
+  "description": "Financial instruments",
+
+  "fields": [
+    {
+      "name": "instrumentId",
+      "physicalName": "INSTRUMENT_ID",
+      "type": "number",
+      "primaryKey": true,
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "ticker",
+      "physicalName": "TICKER",
+      "type": "string",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "instrumentName",
+      "physicalName": "INSTRUMENT_NAME",
+      "type": "string",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "instrumentType",
+      "physicalName": "INSTRUMENT_TYPE",
+      "type": "string",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "assetClass",
+      "physicalName": "ASSET_CLASS",
+      "type": "string",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "issuerId",
+      "physicalName": "ISSUER_ID",
+      "type": "number",
+      "filterable": false,
+      "selectable": false
+    },
+    {
+      "name": "currency",
+      "physicalName": "CURRENCY",
+      "type": "string",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "maturityDate",
+      "physicalName": "MATURITY_DATE",
+      "type": "date",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "couponRate",
+      "physicalName": "COUPON_RATE",
+      "type": "number",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "nominalValue",
+      "physicalName": "NOMINAL_VALUE",
+      "type": "number",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "isActive",
+      "physicalName": "IS_ACTIVE",
+      "type": "number",
+      "filterable": true,
+      "selectable": true
+    }
+  ]
+}

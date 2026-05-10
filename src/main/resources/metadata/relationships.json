@@ -1,0 +1,28 @@
+[
+  {
+    "alias": "instrument",
+    "sourceEntity": "transaction",
+    "sourceField": "instrumentId",
+    "targetEntity": "instrument",
+    "targetField": "instrumentId",
+    "joinType": "LEFT"
+  },
+
+  {
+    "alias": "counterparty",
+    "sourceEntity": "transaction",
+    "sourceField": "counterpartyId",
+    "targetEntity": "party",
+    "targetField": "partyId",
+    "joinType": "LEFT"
+  },
+
+  {
+    "alias": "issuer",
+    "sourceEntity": "instrument",
+    "sourceField": "issuerId",
+    "targetEntity": "party",
+    "targetField": "partyId",
+    "joinType": "LEFT"
+  }
+]

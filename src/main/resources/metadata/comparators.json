@@ -1,0 +1,48 @@
+{
+  "string": [
+    "equals",
+    "notEquals",
+    "like",
+    "in",
+    "notIn",
+    "isNull",
+    "isNotNull"
+  ],
+
+  "number": [
+    "equals",
+    "notEquals",
+    "greaterThan",
+    "lessThan",
+    "greaterOrEqual",
+    "lessOrEqual",
+    "between",
+    "in",
+    "notIn",
+    "isNull",
+    "isNotNull"
+  ],
+
+  "date": [
+    "equals",
+    "notEquals",
+    "greaterThan",
+    "lessThan",
+    "greaterOrEqual",
+    "lessOrEqual",
+    "between",
+    "isNull",
+    "isNotNull"
+  ],
+
+  "timestamp": [
+    "equals",
+    "notEquals",
+    "greaterThan",
+    "lessThan",
+    "greaterOrEqual",
+    "lessOrEqual",
+    "isNull",
+    "isNotNull"
+  ]
+}

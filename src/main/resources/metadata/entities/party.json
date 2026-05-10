@@ -1,0 +1,66 @@
+{
+  "entity": "party",
+  "physicalTable": "PARTY",
+  "alias": "p",
+  "description": "Business parties and counterparties",
+
+  "fields": [
+    {
+      "name": "partyId",
+      "physicalName": "PARTY_ID",
+      "type": "number",
+      "primaryKey": true,
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "partyName",
+      "physicalName": "PARTY_NAME",
+      "type": "string",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "partyType",
+      "physicalName": "PARTY_TYPE",
+      "type": "string",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "taxId",
+      "physicalName": "TAX_ID",
+      "type": "string",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "country",
+      "physicalName": "COUNTRY",
+      "type": "string",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "sector",
+      "physicalName": "SECTOR",
+      "type": "string",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "rating",
+      "physicalName": "RATING",
+      "type": "string",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "isActive",
+      "physicalName": "IS_ACTIVE",
+      "type": "number",
+      "filterable": true,
+      "selectable": true
+    }
+  ]
+}

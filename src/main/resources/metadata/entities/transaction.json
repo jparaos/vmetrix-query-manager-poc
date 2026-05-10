@@ -1,0 +1,101 @@
+{
+  "entity": "transaction",
+  "physicalTable": "TX_TRANSACTION",
+  "alias": "t",
+  "description": "Financial transactions",
+
+  "fields": [
+    {
+      "name": "txnId",
+      "physicalName": "TXN_ID",
+      "type": "number",
+      "primaryKey": true,
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "txnDate",
+      "physicalName": "TXN_DATE",
+      "type": "date",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "txnType",
+      "physicalName": "TXN_TYPE",
+      "type": "string",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "quantity",
+      "physicalName": "QUANTITY",
+      "type": "number",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "price",
+      "physicalName": "PRICE",
+      "type": "number",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "amount",
+      "physicalName": "AMOUNT",
+      "type": "number",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "currency",
+      "physicalName": "CURRENCY",
+      "type": "string",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "status",
+      "physicalName": "STATUS",
+      "type": "string",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "settlementDate",
+      "physicalName": "SETTLEMENT_DATE",
+      "type": "date",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "portfolioId",
+      "physicalName": "PORTFOLIO_ID",
+      "type": "number",
+      "filterable": true,
+      "selectable": true
+    },
+    {
+      "name": "instrumentId",
+      "physicalName": "INSTRUMENT_ID",
+      "type": "number",
+      "filterable": false,
+      "selectable": false
+    },
+    {
+      "name": "counterpartyId",
+      "physicalName": "COUNTERPARTY_ID",
+      "type": "number",
+      "filterable": false,
+      "selectable": false
+    },
+    {
+      "name": "createdAt",
+      "physicalName": "CREATED_AT",
+      "type": "timestamp",
+      "filterable": true,
+      "selectable": true
+    }
+  ]
+}
