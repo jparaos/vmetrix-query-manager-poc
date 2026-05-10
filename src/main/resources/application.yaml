@@ -16,6 +16,8 @@ spring:
   sql:
     init:
       mode: always
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
 
   jackson:
     default-property-inclusion: non_null
@@ -24,6 +26,7 @@ logging:
   level:
     root: INFO
     com.vmetrix.querymanager: DEBUG
+    org.springframework.jdbc.datasource.init: DEBUG
 
 server:
   port: 8080

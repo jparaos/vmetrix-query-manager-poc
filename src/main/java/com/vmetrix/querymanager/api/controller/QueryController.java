@@ -1,7 +1,6 @@
 package com.vmetrix.querymanager.api.controller;
 
 import com.vmetrix.querymanager.api.request.QueryBuildRequest;
-import com.vmetrix.querymanager.api.request.ValidationRequest;
 import com.vmetrix.querymanager.api.response.QueryBuildResponse;
 import com.vmetrix.querymanager.api.response.ValidationResponse;
 import com.vmetrix.querymanager.shared.constants.ApiPaths;
@@ -24,7 +23,7 @@ public class QueryController {
 
     @PostMapping("/validate")
     public ResponseEntity<ValidationResponse> validate(
-            @Valid @RequestBody ValidationRequest request
+            @Valid @RequestBody QueryBuildRequest request
     ) {
 
         ValidationResponse response =
