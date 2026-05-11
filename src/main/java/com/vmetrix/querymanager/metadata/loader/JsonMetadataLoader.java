@@ -3,7 +3,6 @@ package com.vmetrix.querymanager.metadata.loader;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vmetrix.querymanager.config.MetadataProperties;
-import com.vmetrix.querymanager.metadata.model.ComparatorMetadata;
 import com.vmetrix.querymanager.metadata.model.EntityMetadata;
 import com.vmetrix.querymanager.metadata.model.MetadataRegistry;
 import com.vmetrix.querymanager.metadata.model.RelationshipMetadata;
