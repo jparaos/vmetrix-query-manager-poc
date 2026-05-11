@@ -14,8 +14,10 @@ public class SqlPrettyPrinter {
                 .replace("FROM", "\nFROM")
                 .replace("LEFT JOIN", "\nLEFT JOIN")
                 .replace("INNER JOIN", "\nINNER JOIN")
+                .replace(" ON ", "\nON ")
                 .replace("WHERE", "\nWHERE")
                 .replace("ORDER BY", "\nORDER BY")
+                .replace("LIMIT", "\nLIMIT")
                 .trim();
     }
 }

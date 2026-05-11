@@ -21,4 +21,8 @@ public class ResolvedQuery {
     private List<String> resolvedTables;
 
     private List<String> resolvedJoins;
+
+    private Integer columnCount;
+
+    private Integer filterCount;
 }

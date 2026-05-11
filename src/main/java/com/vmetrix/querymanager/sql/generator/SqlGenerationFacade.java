@@ -16,6 +16,8 @@ public class SqlGenerationFacade {
 
     private final SqlGenerator sqlGenerator;
 
+    private final SqlPrettyPrinter sqlPrettyPrinter;
+
     public SqlQuery generate(
             QueryDefinition queryDefinition,
             QueryContext context
@@ -27,6 +29,15 @@ public class SqlGenerationFacade {
                         context
                 );
 
-        return sqlGenerator.generate(statement);
+        SqlQuery sqlQuery =
+                sqlGenerator.generate(statement);
+
+        sqlQuery.setSql(
+                sqlPrettyPrinter.format(
+                        sqlQuery.getSql()
+                )
+        );
+
+        return sqlQuery;
     }
 }

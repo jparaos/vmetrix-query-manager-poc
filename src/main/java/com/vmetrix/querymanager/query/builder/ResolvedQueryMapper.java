@@ -25,7 +25,15 @@ public class ResolvedQueryMapper {
                 )
                 .metadata(
                         QueryMetadataResponse.builder()
-                                .generatedAt(Instant.now())
+                                .columnCount(
+                                        resolvedQuery.getColumnCount()
+                                )
+                                .filterCount(
+                                        resolvedQuery.getFilterCount()
+                                )
+                                .generatedAt(
+                                        Instant.now()
+                                )
                                 .build()
                 )
                 .build();

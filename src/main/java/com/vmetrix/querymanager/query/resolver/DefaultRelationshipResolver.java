@@ -79,4 +79,17 @@ public class DefaultRelationshipResolver
                         relationshipAlias
                 );
     }
+
+    @Override
+    public RelationshipMetadata findByEntities(
+            String sourceEntity,
+            String targetEntity
+    ) {
+
+        return relationshipMetadataService
+                .findByEntities(
+                        sourceEntity,
+                        targetEntity
+                );
+    }
 }

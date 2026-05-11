@@ -12,4 +12,9 @@ public interface RelationshipResolver {
     RelationshipMetadata findRelationship(
             String relationshipAlias
     );
+
+    RelationshipMetadata findByEntities(
+            String sourceEntity,
+            String targetEntity
+    );
 }

@@ -9,4 +9,9 @@ public interface RelationshipMetadataService {
     List<RelationshipMetadata> getRelationships();
 
     RelationshipMetadata getRelationshipByAlias(String alias);
+
+    RelationshipMetadata findByEntities(
+            String sourceEntity,
+            String targetEntity
+    );
 }

@@ -17,6 +17,8 @@ public class DefaultSqlStatementBuilder
 
     private final JoinClauseBuilder joinClauseBuilder;
 
+    private final WhereClauseBuilder whereClauseBuilder;
+
     private final OrderByClauseBuilder orderByClauseBuilder;
 
     @Override
@@ -38,6 +40,15 @@ public class DefaultSqlStatementBuilder
                 )
                 .joins(
                         joinClauseBuilder.build(context)
+                )
+                .whereClause(
+                        whereClauseBuilder.build(
+                                queryDefinition,
+                                context
+                        )
+                )
+                .parameters(
+                        context.getParameters()
                 )
                 .orderByClause(
                         orderByClauseBuilder.build(

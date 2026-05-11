@@ -33,7 +33,7 @@ public class QueryController {
     public ResponseEntity<QueryBuildResponse> build(
             @Valid @RequestBody QueryBuildRequest request
     ) {
-        log.info("Received query build request");
+
         return ResponseEntity.ok(
                 queryEngine.build(request)
         );

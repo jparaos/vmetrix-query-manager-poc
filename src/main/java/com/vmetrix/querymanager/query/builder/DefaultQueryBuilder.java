@@ -1,5 +1,6 @@
 package com.vmetrix.querymanager.query.builder;
 
+import com.vmetrix.querymanager.metadata.model.RelationshipMetadata;
 import com.vmetrix.querymanager.query.model.QueryContext;
 import com.vmetrix.querymanager.query.model.QueryDefinition;
 import com.vmetrix.querymanager.query.model.ResolvedQuery;
@@ -47,10 +48,14 @@ public class DefaultQueryBuilder
                 .resolvedJoins(
                         context.getResolvedRelationships()
                                 .stream()
-                                .map(relationship ->
-                                        relationship.getAlias()
-                                )
+                                .map(RelationshipMetadata::getTargetEntity)
                                 .toList()
+                )
+                .columnCount(
+                        queryDefinition.getSelectFields().size()
+                )
+                .filterCount(
+                        context.getParameters().size()
                 )
                 .build();
     }

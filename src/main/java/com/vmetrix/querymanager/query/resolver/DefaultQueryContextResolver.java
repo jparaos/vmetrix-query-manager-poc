@@ -27,21 +27,43 @@ public class DefaultQueryContextResolver
                 QueryContext.builder()
                         .build();
 
-        resolveSelects(queryDefinition, context);
+        String rootEntity =
+                resolveRootEntity(queryDefinition);
 
-        resolveSorting(queryDefinition, context);
+        resolveSelects(
+                queryDefinition,
+                context,
+                rootEntity
+        );
+
+        resolveSorting(
+                queryDefinition,
+                context,
+                rootEntity
+        );
 
         resolveFilters(
                 queryDefinition.getFilter(),
-                context
+                context,
+                rootEntity
         );
 
         return context;
     }
 
+    private String resolveRootEntity(
+            QueryDefinition queryDefinition
+    ) {
+
+        return queryDefinition.getSelectFields()
+                .get(0)
+                .getEntity();
+    }
+
     private void resolveSelects(
             QueryDefinition queryDefinition,
-            QueryContext context
+            QueryContext context,
+            String rootEntity
     ) {
 
         for (SelectField field :
@@ -50,13 +72,18 @@ public class DefaultQueryContextResolver
             context.getResolvedTables()
                     .add(field.getEntity());
 
-            resolveRelationship(field.getEntity(), context);
+            resolveRelationship(
+                    rootEntity,
+                    field.getEntity(),
+                    context
+            );
         }
     }
 
     private void resolveSorting(
             QueryDefinition queryDefinition,
-            QueryContext context
+            QueryContext context,
+            String rootEntity
     ) {
 
         if (queryDefinition.getSorting() == null) {
@@ -69,13 +96,18 @@ public class DefaultQueryContextResolver
             context.getResolvedTables()
                     .add(sort.getEntity());
 
-            resolveRelationship(sort.getEntity(), context);
+            resolveRelationship(
+                    rootEntity,
+                    sort.getEntity(),
+                    context
+            );
         }
     }
 
     private void resolveFilters(
             FilterNode node,
-            QueryContext context
+            QueryContext context,
+            String rootEntity
     ) {
 
         if (node == null) {
@@ -88,6 +120,7 @@ public class DefaultQueryContextResolver
                     .add(conditionNode.getEntity());
 
             resolveRelationship(
+                    rootEntity,
                     conditionNode.getEntity(),
                     context
             );
@@ -99,17 +132,22 @@ public class DefaultQueryContextResolver
 
             groupNode.getConditions()
                     .forEach(condition ->
-                            resolveFilters(condition, context)
+                            resolveFilters(
+                                    condition,
+                                    context,
+                                    rootEntity
+                            )
                     );
         }
     }
 
     private void resolveRelationship(
-            String entity,
+            String rootEntity,
+            String targetEntity,
             QueryContext context
     ) {
 
-        if ("transaction".equals(entity)) {
+        if (rootEntity.equals(targetEntity)) {
             return;
         }
 
@@ -117,7 +155,10 @@ public class DefaultQueryContextResolver
 
             RelationshipMetadata relationship =
                     relationshipResolver
-                            .findRelationship(entity);
+                            .findByEntities(
+                                    rootEntity,
+                                    targetEntity
+                            );
 
             context.getResolvedRelationships()
                     .add(relationship);
