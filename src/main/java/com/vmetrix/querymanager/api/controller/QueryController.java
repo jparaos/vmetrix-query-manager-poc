@@ -9,9 +9,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import javax.validation.Valid;
 
+@Tag(
+        name = "Query API",
+        description = "Dynamic query generation endpoints"
+)
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +25,9 @@ public class QueryController {
 
     private final QueryEngine queryEngine;
 
+    @Operation(
+            summary = "Validate query request"
+    )
     @PostMapping(ApiPaths.QUERY_VALIDATE)
     public ResponseEntity<ValidationResponse> validate(
             @Valid @RequestBody QueryBuildRequest request
@@ -29,6 +38,9 @@ public class QueryController {
         );
     }
 
+    @Operation(
+            summary = "Build dynamic SQL query"
+    )
     @PostMapping(ApiPaths.QUERY_BUILD)
     public ResponseEntity<QueryBuildResponse> build(
             @Valid @RequestBody QueryBuildRequest request

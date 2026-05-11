@@ -14,10 +14,16 @@ import com.vmetrix.querymanager.shared.constants.ApiPaths;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Tag(
+        name = "Metadata API",
+        description = "Metadata registry endpoints"
+)
 @RestController
 @RequiredArgsConstructor
 public class MetadataController {
@@ -28,6 +34,10 @@ public class MetadataController {
 
     private final ComparatorMetadataService comparatorMetadataService;
 
+    @Operation(
+            summary = "Retrieve registered entities",
+            description = "Returns all available metadata entities with fields and aliases"
+    )
     @GetMapping(ApiPaths.METADATA_ENTITIES)
     public List<MetadataEntityResponse> getEntities() {
 
@@ -40,6 +50,10 @@ public class MetadataController {
                 .collect(Collectors.toList());
     }
 
+    @Operation(
+            summary = "Retrieve supported comparators",
+            description = "Returns all supported query comparators grouped by data type"
+    )
     @GetMapping(ApiPaths.METADATA_COMPARATORS)
     public ComparatorsResponse getComparators() {
 
