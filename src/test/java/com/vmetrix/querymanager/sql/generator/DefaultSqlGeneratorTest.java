@@ -85,6 +85,6 @@ class DefaultSqlGeneratorTest {
                 .contains("ORDER BY");
 
         assertThat(sql)
-                .contains("LIMIT 10");
+                .contains("FETCH FIRST 10 ROWS ONLY");
     }
 }

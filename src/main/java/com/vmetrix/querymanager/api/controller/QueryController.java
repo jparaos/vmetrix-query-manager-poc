@@ -3,8 +3,10 @@ package com.vmetrix.querymanager.api.controller;
 import com.vmetrix.querymanager.api.request.QueryBuildRequest;
 import com.vmetrix.querymanager.api.response.QueryBuildResponse;
 import com.vmetrix.querymanager.api.response.ValidationResponse;
+import com.vmetrix.querymanager.api.response.QueryExecutionResponse;
 import com.vmetrix.querymanager.query.engine.QueryEngine;
 import com.vmetrix.querymanager.shared.constants.ApiPaths;
+import com.vmetrix.querymanager.execution.service.QueryExecutor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ import javax.validation.Valid;
 public class QueryController {
 
     private final QueryEngine queryEngine;
+
+    private final QueryExecutor queryExecutor;
 
     @Operation(
             summary = "Validate query request"
@@ -48,6 +52,19 @@ public class QueryController {
 
         return ResponseEntity.ok(
                 queryEngine.build(request)
+        );
+    }
+
+    @Operation(
+            summary = "Execute dynamic SQL query"
+    )
+    @PostMapping(ApiPaths.QUERY_EXECUTE)
+    public ResponseEntity<QueryExecutionResponse> execute(
+            @Valid @RequestBody QueryBuildRequest request
+    ) {
+
+        return ResponseEntity.ok(
+                queryExecutor.execute(request)
         );
     }
 }

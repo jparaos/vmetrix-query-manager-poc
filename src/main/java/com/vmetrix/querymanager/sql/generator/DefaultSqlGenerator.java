@@ -156,8 +156,8 @@ public class DefaultSqlGenerator
             return;
         }
 
-        sql.append(" LIMIT ");
-
-        sql.append(statement.getLimit());
+        sql.append(" FETCH FIRST ")
+                .append(statement.getLimit())
+                .append(" ROWS ONLY");
     }
 }

@@ -10,6 +10,7 @@ import com.vmetrix.querymanager.query.model.ResolvedQuery;
 import com.vmetrix.querymanager.query.parser.QueryDefinitionParser;
 import com.vmetrix.querymanager.query.parser.QueryRequestNormalizer;
 import com.vmetrix.querymanager.shared.exception.ValidationException;
+import com.vmetrix.querymanager.validation.model.ValidationError;
 import com.vmetrix.querymanager.validation.model.ValidationResult;
 import com.vmetrix.querymanager.validation.service.ValidationResponseMapper;
 import com.vmetrix.querymanager.validation.service.ValidationService;
@@ -44,33 +45,8 @@ public class DefaultQueryEngine
             QueryBuildRequest request
     ) {
 
-        QueryDefinition queryDefinition =
-                parse(request);
-
-        ValidationResult validationResult =
-                validationService.validate(
-                        queryDefinition
-                );
-
-        if (!validationResult.isValid()) {
-
-            throw new ValidationException(
-                    validationResult.getErrors()
-                            .stream()
-                            .map(error ->
-                                    error.getMessage()
-                            )
-                            .toList()
-            );
-        }
-
-        ResolvedQuery resolvedQuery =
-                queryBuildFacade.build(
-                        queryDefinition
-                );
-
         return resolvedQueryMapper.map(
-                resolvedQuery
+                buildInternal(request)
         );
     }
 
@@ -89,6 +65,34 @@ public class DefaultQueryEngine
 
         return validationResponseMapper.map(
                 validationResult
+        );
+    }
+
+    @Override
+    public ResolvedQuery buildInternal(
+            QueryBuildRequest request
+    ) {
+
+        QueryDefinition queryDefinition =
+                parse(request);
+
+        ValidationResult validationResult =
+                validationService.validate(
+                        queryDefinition
+                );
+
+        if (!validationResult.isValid()) {
+
+            throw new ValidationException(
+                    validationResult.getErrors()
+                            .stream()
+                            .map(ValidationError::getMessage)
+                            .toList()
+            );
+        }
+
+        return queryBuildFacade.build(
+                queryDefinition
         );
     }
 
