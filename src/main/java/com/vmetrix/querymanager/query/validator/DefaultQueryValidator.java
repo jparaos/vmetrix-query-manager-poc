@@ -1,6 +1,7 @@
 package com.vmetrix.querymanager.query.validator;
 
 import com.vmetrix.querymanager.query.model.QueryDefinition;
+import com.vmetrix.querymanager.validation.model.ValidationError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +15,9 @@ public class DefaultQueryValidator implements QueryValidator {
     private final List<QueryValidationRule> validationRules;
 
     @Override
-    public List<String> validate(QueryDefinition queryDefinition) {
+    public List<ValidationError> validate(QueryDefinition queryDefinition) {
 
-        List<String> errors = new ArrayList<>();
+        List<ValidationError> errors = new ArrayList<>();
 
         for (QueryValidationRule rule : validationRules) {
 

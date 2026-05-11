@@ -7,6 +7,7 @@ import com.vmetrix.querymanager.query.model.GroupNode;
 import com.vmetrix.querymanager.query.model.QueryDefinition;
 import com.vmetrix.querymanager.query.model.SelectField;
 import com.vmetrix.querymanager.query.model.SortDefinition;
+import com.vmetrix.querymanager.validation.model.ValidationError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,9 +22,9 @@ public class EntityValidationRule
     private final EntityMetadataService entityMetadataService;
 
     @Override
-    public List<String> validate(QueryDefinition queryDefinition) {
+    public List<ValidationError> validate(QueryDefinition queryDefinition) {
 
-        List<String> errors = new ArrayList<>();
+        List<ValidationError> errors = new ArrayList<>();
 
         validateSelects(queryDefinition, errors);
 
@@ -36,7 +37,7 @@ public class EntityValidationRule
 
     private void validateSelects(
             QueryDefinition queryDefinition,
-            List<String> errors
+            List<ValidationError> errors
     ) {
 
         for (SelectField selectField :
@@ -46,17 +47,19 @@ public class EntityValidationRule
                     selectField.getEntity()
             )) {
 
-                errors.add(
-                        "Unknown entity: "
+                errors.add(ValidationError.builder()
+                        .entity(selectField.getEntity())
+                        .message("Entity '"
                                 + selectField.getEntity()
-                );
+                                + "' does not exist in the model")
+                        .build());
             }
         }
     }
 
     private void validateSorting(
             QueryDefinition queryDefinition,
-            List<String> errors
+            List<ValidationError> errors
     ) {
 
         if (queryDefinition.getSorting() == null) {
@@ -70,17 +73,19 @@ public class EntityValidationRule
                     sort.getEntity()
             )) {
 
-                errors.add(
-                        "Unknown entity: "
+                errors.add(ValidationError.builder()
+                        .entity(sort.getEntity())
+                        .message("Entity '"
                                 + sort.getEntity()
-                );
+                                + "' does not exist in the model")
+                        .build());
             }
         }
     }
 
     private void validateFilters(
             FilterNode node,
-            List<String> errors
+            List<ValidationError> errors
     ) {
 
         if (node == null) {
@@ -93,10 +98,12 @@ public class EntityValidationRule
                     conditionNode.getEntity()
             )) {
 
-                errors.add(
-                        "Unknown entity: "
+                errors.add(ValidationError.builder()
+                        .entity(conditionNode.getEntity())
+                        .message("Entity '"
                                 + conditionNode.getEntity()
-                );
+                                + "' does not exist in the model")
+                        .build());
             }
 
             return;
