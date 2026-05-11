@@ -47,7 +47,7 @@ class QueryBuildIntegrationTest {
                                                 .build()
                                 )
                         )
-                        .filters(
+                        .filter(
                                 FilterGroupRequest.builder()
                                         .operator("AND")
                                         .conditions(
