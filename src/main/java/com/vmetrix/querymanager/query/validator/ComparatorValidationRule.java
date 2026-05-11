@@ -7,6 +7,7 @@ import com.vmetrix.querymanager.query.model.ConditionNode;
 import com.vmetrix.querymanager.query.model.FilterNode;
 import com.vmetrix.querymanager.query.model.GroupNode;
 import com.vmetrix.querymanager.query.model.QueryDefinition;
+import com.vmetrix.querymanager.validation.model.ValidationError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +24,9 @@ public class ComparatorValidationRule
     private final ComparatorMetadataService comparatorMetadataService;
 
     @Override
-    public List<String> validate(QueryDefinition queryDefinition) {
+    public List<ValidationError> validate(QueryDefinition queryDefinition) {
 
-        List<String> errors = new ArrayList<>();
+        List<ValidationError> errors = new ArrayList<>();
 
         validateFilters(queryDefinition.getFilter(), errors);
 
@@ -34,7 +35,7 @@ public class ComparatorValidationRule
 
     private void validateFilters(
             FilterNode node,
-            List<String> errors
+            List<ValidationError> errors
     ) {
 
         if (node == null) {
@@ -60,7 +61,7 @@ public class ComparatorValidationRule
 
     private void validateCondition(
             ConditionNode condition,
-            List<String> errors
+            List<ValidationError> errors
     ) {
 
         if (!fieldMetadataService.exists(
@@ -85,12 +86,16 @@ public class ComparatorValidationRule
 
         if (!valid) {
 
-            errors.add(
-                    "Comparator "
+            errors.add(ValidationError.builder()
+                    .entity(condition.getEntity())
+                    .field(condition.getField())
+                    .comparator(condition.getComparator())
+                    .message("Comparator '"
                             + condition.getComparator()
-                            + " is not valid for type "
+                            + "' is not valid for "
                             + fieldMetadata.getType()
-            );
+                            + " fields")
+                    .build());
         }
     }
 }

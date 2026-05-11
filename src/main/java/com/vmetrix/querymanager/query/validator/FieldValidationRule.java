@@ -7,6 +7,7 @@ import com.vmetrix.querymanager.query.model.GroupNode;
 import com.vmetrix.querymanager.query.model.QueryDefinition;
 import com.vmetrix.querymanager.query.model.SelectField;
 import com.vmetrix.querymanager.query.model.SortDefinition;
+import com.vmetrix.querymanager.validation.model.ValidationError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,9 +22,9 @@ public class FieldValidationRule
     private final FieldMetadataService fieldMetadataService;
 
     @Override
-    public List<String> validate(QueryDefinition queryDefinition) {
+    public List<ValidationError> validate(QueryDefinition queryDefinition) {
 
-        List<String> errors = new ArrayList<>();
+        List<ValidationError> errors = new ArrayList<>();
 
         validateSelects(queryDefinition, errors);
 
@@ -36,7 +37,7 @@ public class FieldValidationRule
 
     private void validateSelects(
             QueryDefinition queryDefinition,
-            List<String> errors
+            List<ValidationError> errors
     ) {
 
         for (SelectField selectField :
@@ -47,19 +48,21 @@ public class FieldValidationRule
                     selectField.getField()
             )) {
 
-                errors.add(
-                        "Unknown field: "
+                errors.add(ValidationError.builder()
+                        .entity(selectField.getEntity())
+                        .field(selectField.getField())
+                        .message("Field '"
                                 + selectField.getField()
-                                + " in entity "
-                                + selectField.getEntity()
-                );
+                                + "' does not exist in entity '"
+                                + selectField.getEntity() + "'")
+                        .build());
             }
         }
     }
 
     private void validateSorting(
             QueryDefinition queryDefinition,
-            List<String> errors
+            List<ValidationError> errors
     ) {
 
         if (queryDefinition.getSorting() == null) {
@@ -74,19 +77,21 @@ public class FieldValidationRule
                     sort.getField()
             )) {
 
-                errors.add(
-                        "Unknown field: "
+                errors.add(ValidationError.builder()
+                        .entity(sort.getEntity())
+                        .field(sort.getField())
+                        .message("Field '"
                                 + sort.getField()
-                                + " in entity "
-                                + sort.getEntity()
-                );
+                                + "' does not exist in entity '"
+                                + sort.getEntity() + "'")
+                        .build());
             }
         }
     }
 
     private void validateFilters(
             FilterNode node,
-            List<String> errors
+            List<ValidationError> errors
     ) {
 
         if (node == null) {
@@ -100,12 +105,14 @@ public class FieldValidationRule
                     conditionNode.getField()
             )) {
 
-                errors.add(
-                        "Unknown field: "
+                errors.add(ValidationError.builder()
+                        .entity(conditionNode.getEntity())
+                        .field(conditionNode.getField())
+                        .message("Field '"
                                 + conditionNode.getField()
-                                + " in entity "
-                                + conditionNode.getEntity()
-                );
+                                + "' does not exist in entity '"
+                                + conditionNode.getEntity() + "'")
+                        .build());
             }
 
             return;

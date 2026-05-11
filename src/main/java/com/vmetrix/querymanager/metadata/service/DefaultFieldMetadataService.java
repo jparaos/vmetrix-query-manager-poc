@@ -46,6 +46,10 @@ public class DefaultFieldMetadataService
             String fieldName
     ) {
 
+        if (!entityMetadataService.exists(entityName)) {
+            return false;
+        }
+
         EntityMetadata entity =
                 entityMetadataService.getEntity(entityName);
 

@@ -61,7 +61,7 @@ class QueryValidationIntegrationTest {
                 .andExpect(
                         jsonPath("$.messages[0]")
                                 .value(
-                                        "Unknown field: invalidField in entity party"
+                                        "Field 'invalidField' does not exist in entity 'party'"
                                 )
                 );
     }

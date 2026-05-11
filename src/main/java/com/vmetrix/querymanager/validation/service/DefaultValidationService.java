@@ -21,21 +21,15 @@ public class DefaultValidationService
             QueryDefinition queryDefinition
     ) {
 
-        List<String> validationMessages =
+        List<ValidationError> errors =
                 queryValidator.validate(queryDefinition);
 
         ValidationResult result =
                 ValidationResult.builder()
-                        .valid(validationMessages.isEmpty())
+                        .valid(errors.isEmpty())
                         .build();
 
-        validationMessages.forEach(message ->
-                result.addError(
-                        ValidationError.builder()
-                                .message(message)
-                                .build()
-                )
-        );
+        errors.forEach(result::addError);
 
         return result;
     }

@@ -2,6 +2,7 @@ package com.vmetrix.querymanager.query.validator;
 
 import com.vmetrix.querymanager.query.model.QueryDefinition;
 import com.vmetrix.querymanager.query.model.SortDefinition;
+import com.vmetrix.querymanager.validation.model.ValidationError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +15,9 @@ public class SortValidationRule
         implements QueryValidationRule {
 
     @Override
-    public List<String> validate(QueryDefinition queryDefinition) {
+    public List<ValidationError> validate(QueryDefinition queryDefinition) {
 
-        List<String> errors = new ArrayList<>();
+        List<ValidationError> errors = new ArrayList<>();
 
         if (queryDefinition.getSorting() == null) {
             return errors;
@@ -31,10 +32,13 @@ public class SortValidationRule
             if (!"asc".equalsIgnoreCase(direction)
                     && !"desc".equalsIgnoreCase(direction)) {
 
-                errors.add(
-                        "Invalid sort direction: "
+                errors.add(ValidationError.builder()
+                        .entity(sort.getEntity())
+                        .field(sort.getField())
+                        .message("Invalid sort direction '"
                                 + direction
-                );
+                                + "'. Must be 'asc' or 'desc'")
+                        .build());
             }
         }
 
