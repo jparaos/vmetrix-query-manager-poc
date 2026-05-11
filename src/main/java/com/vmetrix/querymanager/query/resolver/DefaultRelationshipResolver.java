@@ -29,6 +29,15 @@ public class DefaultRelationshipResolver
             String relationshipAlias
     ) {
 
+        return resolve(relationshipAlias, relationshipAlias);
+    }
+
+    @Override
+    public ResolvedRelationship resolve(
+            String relationshipAlias,
+            String sqlTargetAlias
+    ) {
+
         RelationshipMetadata relationship =
                 relationshipMetadataService
                         .getRelationshipByAlias(
@@ -63,7 +72,7 @@ public class DefaultRelationshipResolver
                 .sourceAlias(sourceEntity.getAlias())
                 .sourceColumn(sourceField.getPhysicalName())
                 .targetTable(targetEntity.getPhysicalTable())
-                .targetAlias(targetEntity.getAlias())
+                .targetAlias(sqlTargetAlias)
                 .targetColumn(targetField.getPhysicalName())
                 .joinType(relationship.getJoinType())
                 .build();

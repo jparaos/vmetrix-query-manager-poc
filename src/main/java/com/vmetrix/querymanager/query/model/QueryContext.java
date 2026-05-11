@@ -24,6 +24,11 @@ public class QueryContext {
     private Set<RelationshipMetadata> resolvedRelationships =
             new LinkedHashSet<>();
 
+    // Maps relationship alias → SQL table alias to use in the generated JOIN
+    // e.g. "counterparty" → "counterparty" (alias ref) or "counterparty" → "p" (direct entity ref)
+    @Builder.Default
+    private Map<String, String> relationshipSqlAliases = new LinkedHashMap<>();
+
     @Builder.Default
     private Map<String, Object> parameters =
             new LinkedHashMap<>();

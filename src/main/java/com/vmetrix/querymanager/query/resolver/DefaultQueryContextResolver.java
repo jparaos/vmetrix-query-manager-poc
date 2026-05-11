@@ -1,6 +1,8 @@
 package com.vmetrix.querymanager.query.resolver;
 
 import com.vmetrix.querymanager.metadata.model.RelationshipMetadata;
+import com.vmetrix.querymanager.metadata.service.EntityMetadataService;
+import com.vmetrix.querymanager.metadata.service.RelationshipMetadataService;
 import com.vmetrix.querymanager.query.model.ConditionNode;
 import com.vmetrix.querymanager.query.model.FilterNode;
 import com.vmetrix.querymanager.query.model.GroupNode;
@@ -17,6 +19,10 @@ public class DefaultQueryContextResolver
         implements QueryContextResolver {
 
     private final RelationshipResolver relationshipResolver;
+
+    private final RelationshipMetadataService relationshipMetadataService;
+
+    private final EntityMetadataService entityMetadataService;
 
     @Override
     public QueryContext resolve(
@@ -151,17 +157,31 @@ public class DefaultQueryContextResolver
             return;
         }
 
+        // Already resolved this alias/entity
+        boolean alreadyResolved = context.getResolvedRelationships()
+                .stream()
+                .anyMatch(r -> r.getAlias().equals(targetEntity));
+
+        if (alreadyResolved) {
+            return;
+        }
+
         try {
 
-            RelationshipMetadata relationship =
-                    relationshipResolver
-                            .findByEntities(
-                                    rootEntity,
-                                    targetEntity
-                            );
-
-            context.getResolvedRelationships()
-                    .add(relationship);
+            if (relationshipMetadataService.isAlias(targetEntity)) {
+                // Request uses relationship alias (e.g. "counterparty") → SQL alias = alias name
+                RelationshipMetadata relationship =
+                        relationshipResolver.findRelationship(targetEntity);
+                context.getResolvedRelationships().add(relationship);
+                context.getRelationshipSqlAliases().put(relationship.getAlias(), targetEntity);
+            } else {
+                // Request uses direct entity name (e.g. "party") → SQL alias = entity's natural alias
+                RelationshipMetadata relationship =
+                        relationshipResolver.findByEntities(rootEntity, targetEntity);
+                String sqlAlias = entityMetadataService.getEntity(targetEntity).getAlias();
+                context.getResolvedRelationships().add(relationship);
+                context.getRelationshipSqlAliases().put(relationship.getAlias(), sqlAlias);
+            }
 
         } catch (Exception ignored) {
         }

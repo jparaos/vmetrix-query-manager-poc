@@ -29,9 +29,13 @@ public class DefaultJoinClauseBuilder
         for (RelationshipMetadata relationship :
                 context.getResolvedRelationships()) {
 
+            String sqlTargetAlias = context.getRelationshipSqlAliases()
+                    .getOrDefault(relationship.getAlias(), relationship.getAlias());
+
             ResolvedRelationship resolved =
                     relationshipResolver.resolve(
-                            relationship.getAlias()
+                            relationship.getAlias(),
+                            sqlTargetAlias
                     );
 
             String condition =

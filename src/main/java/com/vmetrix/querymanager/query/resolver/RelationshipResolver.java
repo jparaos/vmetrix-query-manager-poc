@@ -9,6 +9,11 @@ public interface RelationshipResolver {
             String relationshipAlias
     );
 
+    ResolvedRelationship resolve(
+            String relationshipAlias,
+            String sqlTargetAlias
+    );
+
     RelationshipMetadata findRelationship(
             String relationshipAlias
     );

@@ -1,6 +1,7 @@
 package com.vmetrix.querymanager.query.validator;
 
 import com.vmetrix.querymanager.metadata.service.EntityMetadataService;
+import com.vmetrix.querymanager.metadata.service.RelationshipMetadataService;
 import com.vmetrix.querymanager.query.model.ConditionNode;
 import com.vmetrix.querymanager.query.model.FilterNode;
 import com.vmetrix.querymanager.query.model.GroupNode;
@@ -20,6 +21,13 @@ public class EntityValidationRule
         implements QueryValidationRule {
 
     private final EntityMetadataService entityMetadataService;
+
+    private final RelationshipMetadataService relationshipMetadataService;
+
+    private boolean isValidEntityReference(String name) {
+        return entityMetadataService.exists(name)
+                || relationshipMetadataService.isAlias(name);
+    }
 
     @Override
     public List<ValidationError> validate(QueryDefinition queryDefinition) {
@@ -43,7 +51,7 @@ public class EntityValidationRule
         for (SelectField selectField :
                 queryDefinition.getSelectFields()) {
 
-            if (!entityMetadataService.exists(
+            if (!isValidEntityReference(
                     selectField.getEntity()
             )) {
 
@@ -69,7 +77,7 @@ public class EntityValidationRule
         for (SortDefinition sort :
                 queryDefinition.getSorting()) {
 
-            if (!entityMetadataService.exists(
+            if (!isValidEntityReference(
                     sort.getEntity()
             )) {
 
@@ -94,7 +102,7 @@ public class EntityValidationRule
 
         if (node instanceof ConditionNode conditionNode) {
 
-            if (!entityMetadataService.exists(
+            if (!isValidEntityReference(
                     conditionNode.getEntity()
             )) {
 
