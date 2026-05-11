@@ -14,6 +14,8 @@ public final class ApiPaths {
 
     public static final String METADATA = API_BASE + "/metadata";
     public static final String METADATA_ENTITIES = METADATA + "/entities";
+    public static final String METADATA_ENTITY_FIELDS = METADATA + "/entities/{entity}/fields";
+    public static final String METADATA_ENTITY_RELATIONSHIPS = METADATA + "/entities/{entity}/relationships";
     public static final String METADATA_COMPARATORS = METADATA + "/comparators";
 
 }

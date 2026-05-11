@@ -13,6 +13,7 @@ import com.vmetrix.querymanager.metadata.service.RelationshipMetadataService;
 import com.vmetrix.querymanager.shared.constants.ApiPaths;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -47,6 +48,38 @@ public class MetadataController {
         return entityMetadataService.getAllEntities()
                 .stream()
                 .map(entity -> mapEntity(entity, relationships))
+                .collect(Collectors.toList());
+    }
+
+    @Operation(
+            summary = "Retrieve fields for a specific entity",
+            description = "Returns all field definitions for the given entity name"
+    )
+    @GetMapping(ApiPaths.METADATA_ENTITY_FIELDS)
+    public List<MetadataFieldResponse> getEntityFields(
+            @PathVariable String entity
+    ) {
+
+        return entityMetadataService.getEntity(entity)
+                .getFields()
+                .stream()
+                .map(this::mapField)
+                .collect(Collectors.toList());
+    }
+
+    @Operation(
+            summary = "Retrieve relationships for a specific entity",
+            description = "Returns all outgoing relationships for the given entity name"
+    )
+    @GetMapping(ApiPaths.METADATA_ENTITY_RELATIONSHIPS)
+    public List<MetadataRelationshipResponse> getEntityRelationships(
+            @PathVariable String entity
+    ) {
+
+        return relationshipMetadataService.getRelationships()
+                .stream()
+                .filter(r -> r.getSourceEntity().equals(entity))
+                .map(this::mapRelationship)
                 .collect(Collectors.toList());
     }
 
