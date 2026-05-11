@@ -178,19 +178,19 @@ public class DefaultQueryContextResolver
 
         try {
 
-            if (relationshipMetadataService.isAlias(targetEntity)) {
-                // Request uses relationship alias (e.g. "counterparty") → SQL alias = alias name
-                RelationshipMetadata relationship =
-                        relationshipResolver.findRelationship(targetEntity);
-                context.getResolvedRelationships().add(relationship);
-                context.getRelationshipSqlAliases().put(relationship.getAlias(), targetEntity);
-            } else {
-                // Request uses direct entity name (e.g. "party") → SQL alias = entity's natural alias
+            if (entityMetadataService.exists(targetEntity)) {
+                // Request uses direct entity name (e.g. "instrument", "party") → SQL alias = entity's natural alias
                 RelationshipMetadata relationship =
                         relationshipResolver.findByEntities(rootEntity, targetEntity);
                 String sqlAlias = entityMetadataService.getEntity(targetEntity).getAlias();
                 context.getResolvedRelationships().add(relationship);
                 context.getRelationshipSqlAliases().put(relationship.getAlias(), sqlAlias);
+            } else if (relationshipMetadataService.isAlias(targetEntity)) {
+                // Request uses relationship alias that differs from entity name (e.g. "counterparty", "issuer")
+                RelationshipMetadata relationship =
+                        relationshipResolver.findRelationship(targetEntity);
+                context.getResolvedRelationships().add(relationship);
+                context.getRelationshipSqlAliases().put(relationship.getAlias(), targetEntity);
             }
 
         } catch (Exception ignored) {
