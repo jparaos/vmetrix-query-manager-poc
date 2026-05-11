@@ -19,7 +19,7 @@ public class QueryBuildRequest {
     @NotEmpty
     private List<SelectFieldRequest> select;
 
-    private Object filter;
+    private Object filters;
 
     @Valid
     private List<SortRequest> sorting;
