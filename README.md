@@ -333,17 +333,33 @@ New comparators can be added without modifying existing builders.
 
 ---
 
-# AI Usage Disclosure
+# AI Usage in Development
 
-AI assistance tools were used during development for:
+## Tool used
 
-* Architectural brainstorming
-* Refactoring suggestions
-* Documentation generation
-* Boilerplate acceleration
-* Test structure recommendations
+**Claude Code** (Anthropic) was used throughout the development of this PoC as the primary AI-assisted development tool, running directly in the terminal via the CLI.
 
-All design decisions, implementation validation, debugging, integration, and final code adjustments were reviewed and adapted manually.
+## Tasks where AI helped
+
+* **Architecture design**: initial layer breakdown (parser → validator → resolver → builder → generator → executor), identification of applicable patterns (Strategy for comparators, Builder for SQL clauses, Facade for query orchestration).
+* **Boilerplate acceleration**: generating repetitive but structurally consistent classes such as comparator implementations, request/response DTOs, and Spring `@Component` wrappers.
+* **Metadata model design**: defining the JSON structure for entity, field, relationship, and comparator configuration, and aligning it with the requirement that zero Java code changes are needed to add a new field or entity.
+* **Test scaffolding**: generating the initial structure for integration tests using `@SpringBootTest` + `MockMvc` and unit tests for SQL builders.
+* **Documentation**: README sections and inline Swagger annotations.
+
+## Cases where AI output was corrected or discarded
+
+* **JOIN resolution logic**: the first AI-generated version resolved joins by scanning all declared relationships for any entity appearing in the query. This was incorrect — it could include unneeded joins when the same physical table (PARTY) is reachable via multiple aliases (counterparty, issuer). The logic was rewritten to resolve joins only for the specific aliases explicitly referenced in the select and filter clauses.
+* **WHERE clause recursion**: the initial generated implementation flattened nested AND/OR groups into a single level. It was discarded and replaced with a recursive tree traversal that properly parenthesizes nested groups, supporting arbitrary nesting depth as required.
+* **Comparator factory**: the first suggestion used a `HashMap` with manually registered entries, which would require code changes to add a new comparator. It was replaced with Spring's dependency injection collecting all `SqlComparator` beans automatically — zero registration code needed.
+* **Test assertions**: several AI-generated test assertions were too brittle (exact SQL string matching with hardcoded spacing). These were replaced with `containsIgnoringCase` checks on SQL clauses and structural assertions on the parameters map.
+
+## What I learned about effective AI usage in development
+
+* **Specificity drives quality**: vague prompts like "generate a query builder" produced generic code. Prompts that described the exact contract — inputs, outputs, and constraints — produced code that required far fewer corrections.
+* **AI is strong at structure, weak at domain invariants**: the generated architecture was solid, but subtle domain rules (e.g., PARTY reached via two different FK paths) required human judgment. AI accelerated the scaffolding; the business logic correctness required manual review every time.
+* **Iterative correction is faster than regeneration**: when AI output was partially wrong, describing the specific failure and asking for a targeted fix was more efficient than starting over with a new prompt.
+* **Tests are the best AI guardrail**: writing the test first and then asking the AI to implement the code to pass it produced more reliable results than generating both together.
 
 ---
 
