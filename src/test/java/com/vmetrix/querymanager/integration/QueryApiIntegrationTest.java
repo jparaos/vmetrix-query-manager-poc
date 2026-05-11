@@ -218,7 +218,7 @@ class QueryApiIntegrationTest {
                                         .build()
                         )
                 )
-                .filter(
+                .filters(
                         FilterGroupRequest.builder()
                                 .operator("AND")
                                 .conditions(
