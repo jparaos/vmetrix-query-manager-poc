@@ -20,7 +20,7 @@ public class QueryBuildRequest {
     private List<SelectFieldRequest> select;
 
     @Valid
-    private FilterGroupRequest filters;
+    private FilterGroupRequest filter;
 
     @Valid
     private List<SortRequest> sorting;

@@ -30,7 +30,7 @@ public class DefaultQueryDefinitionParser
                 )
                 .filter(
                         filterParser.parse(
-                                request.getFilters()
+                                request.getFilter()
                         )
                 )
                 .sorting(
