@@ -19,8 +19,7 @@ public class QueryBuildRequest {
     @NotEmpty
     private List<SelectFieldRequest> select;
 
-    @Valid
-    private FilterGroupRequest filter;
+    private Object filter;
 
     @Valid
     private List<SortRequest> sorting;
