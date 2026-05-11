@@ -61,9 +61,19 @@ public class DefaultQueryContextResolver
             QueryDefinition queryDefinition
     ) {
 
-        return queryDefinition.getSelectFields()
+        String firstEntity = queryDefinition.getSelectFields()
                 .get(0)
                 .getEntity();
+
+        // If first entity is a relationship alias, use the source entity as root
+        if (!entityMetadataService.exists(firstEntity)
+                && relationshipMetadataService.isAlias(firstEntity)) {
+            return relationshipMetadataService
+                    .getRelationshipByAlias(firstEntity)
+                    .getSourceEntity();
+        }
+
+        return firstEntity;
     }
 
     private void resolveSelects(
