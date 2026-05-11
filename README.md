@@ -142,6 +142,9 @@ Examples:
 * in
 * isNull
 * isNotNull
+* greaterOrEqual
+* lessOrEqual
+* notIn
 
 ---
 
@@ -263,7 +266,7 @@ Request body:
 
 ```json
 {
-  "sql": "SELECT t.AMOUNT, p.PARTY_NAME FROM TX_TRANSACTION t LEFT JOIN PARTY p ON t.COUNTERPARTY_ID = p.PARTY_ID WHERE (t.AMOUNT > :p1 AND p.COUNTRY = :p2) ORDER BY t.TXN_DATE DESC LIMIT 10",
+  "sql": "SELECT t.AMOUNT, p.PARTY_NAME FROM TX_TRANSACTION t LEFT JOIN PARTY p ON t.COUNTERPARTY_ID = p.PARTY_ID WHERE (t.AMOUNT > :p1 AND p.COUNTRY = :p2) ORDER BY t.TXN_DATE DESC ORDER BY t.TXN_DATE DESC FETCH FIRST 10 ROWS ONLY",
   "parameters": {
     "p1": 1000,
     "p2": "CL"
