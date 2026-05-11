@@ -2,152 +2,46 @@
 -- PARTY
 -- =========================================================
 
-INSERT INTO PARTY (
-    PARTY_ID,
-    PARTY_NAME,
-    PARTY_TYPE,
-    TAX_ID,
-    COUNTRY,
-    SECTOR,
-    RATING,
-    IS_ACTIVE
-) VALUES
-    (1, 'Banco de Chile', 'COUNTERPARTY', '97-004-000-5', 'CL', 'Banking', 'AA', 1),
-
-    (2, 'Tesoreria General', 'ISSUER', '60-805-000-0', 'CL', 'Government', 'AAA', 1),
-
-    (3, 'Falabella S.A.', 'ISSUER', '90-743-000-0', 'CL', 'Retail', 'A+', 1),
-
-    (4, 'BTG Pactual', 'BROKER', '30-306-294-3', 'BR', 'Banking', 'AA-', 1),
-
-    (5, 'Goldman Sachs', 'COUNTERPARTY', '13-5108880', 'US', 'Banking', 'A+', 1);
-
-
+INSERT INTO PARTY VALUES (1, 'Banco de Chile', 'COUNTERPARTY', '97-004-000-5', 'CL', 'Banking', 'AA', 1);
+INSERT INTO PARTY VALUES (2, 'Tesoreria General', 'ISSUER', '60-805-000-0', 'CL', 'Government', 'AAA', 1);
+INSERT INTO PARTY VALUES (3, 'Falabella S.A.', 'ISSUER', '90-743-000-0', 'CL', 'Retail', 'A+', 1);
+INSERT INTO PARTY VALUES (4, 'BTG Pactual', 'BROKER', '30-306-294-3', 'BR', 'Banking', 'AA-', 1);
+INSERT INTO PARTY VALUES (5, 'Goldman Sachs', 'COUNTERPARTY', '13-5108880', 'US', 'Banking', 'A+', 1);
+INSERT INTO PARTY VALUES (6, 'Ecopetrol S.A.', 'ISSUER', '899999068-1', 'CO', 'Energy', 'BBB', 1);
+INSERT INTO PARTY VALUES (7, 'Corp. Nacional del Cobre', 'ISSUER', '61-704-000-K', 'CL', 'Mining', 'A+', 1);
+INSERT INTO PARTY VALUES (8, 'AFP Habitat', 'COUNTERPARTY', '98-000-100-8', 'CL', 'Pension', 'AA+', 1);
+INSERT INTO PARTY VALUES (9, 'Itau Unibanco', 'BROKER', '60-872-504-4', 'BR', 'Banking', 'AA-', 1);
+INSERT INTO PARTY VALUES (10, 'Inactive Corp', 'COUNTERPARTY', '99-999-999-9', 'CL', 'Other', 'NR', 0);
 
 -- =========================================================
 -- INSTRUMENT
 -- =========================================================
 
-INSERT INTO INSTRUMENT (
-    INSTRUMENT_ID,
-    TICKER,
-    INSTRUMENT_NAME,
-    INSTRUMENT_TYPE,
-    ASSET_CLASS,
-    ISSUER_ID,
-    CURRENCY,
-    MATURITY_DATE,
-    COUPON_RATE,
-    NOMINAL_VALUE,
-    IS_ACTIVE
-) VALUES
-      (
-          1,
-          'BTP-0230',
-          'Bono Tesoreria 2030',
-          'BOND',
-          'FIXED_INCOME',
-          2,
-          'CLP',
-          DATE '2030-07-01',
-          3.50,
-          1000000,
-          1
-      ),
-
-      (
-          2,
-          'BCU-0528',
-          'BCU 5Y UF 2028',
-          'BOND',
-          'FIXED_INCOME',
-          2,
-          'CLF',
-          DATE '2028-05-15',
-          2.80,
-          500000,
-          1
-      ),
-
-      (
-          3,
-          'FALABELLA',
-          'Falabella Equity',
-          'EQUITY',
-          'EQUITY',
-          3,
-          'CLP',
-          NULL,
-          NULL,
-          NULL,
-          1
-      );
-
-
+INSERT INTO INSTRUMENT VALUES (1, 'BTP-0230', 'Bono Tesoreria 2030', 'BOND', 'FIXED_INCOME', 2, 'CLP', DATE '2030-07-01', 3.50, 1000000, 1);
+INSERT INTO INSTRUMENT VALUES (2, 'BCU-0528', 'BCU 5Y UF 2028', 'BOND', 'FIXED_INCOME', 2, 'CLF', DATE '2028-05-15', 2.80, 1000000, 1);
+INSERT INTO INSTRUMENT VALUES (3, 'FALABELLA', 'Falabella Equity', 'EQUITY', 'EQUITY', 3, 'CLP', NULL, NULL, NULL, 1);
+INSERT INTO INSTRUMENT VALUES (4, 'ECO-2031', 'Ecopetrol Bond 2031', 'BOND', 'FIXED_INCOME', 6, 'USD', DATE '2031-11-20', 5.25, 1000000, 1);
+INSERT INTO INSTRUMENT VALUES (5, 'CODELCO29', 'Codelco Bond 2029', 'BOND', 'FIXED_INCOME', 7, 'USD', DATE '2029-03-15', 4.10, 1000000, 1);
+INSERT INTO INSTRUMENT VALUES (6, 'FONDO-A', 'Fondo Mutuo Alpha', 'FUND', 'ALTERNATIVES', 1, 'CLP', NULL, NULL, NULL, 1);
+INSERT INTO INSTRUMENT VALUES (7, 'USD-DEP', 'USD Time Deposit 90d', 'DEPOSIT', 'FIXED_INCOME', 5, 'USD', DATE '2026-07-15', 5.40, 1000000, 1);
+INSERT INTO INSTRUMENT VALUES (8, 'OLD-BOND', 'Expired Bond 2020', 'BOND', 'FIXED_INCOME', 3, 'CLP', DATE '2020-01-01', 6.00, 1000000, 0);
 
 -- =========================================================
 -- TX_TRANSACTION
 -- =========================================================
 
-INSERT INTO TX_TRANSACTION (
-    TXN_ID,
-    TXN_DATE,
-    TXN_TYPE,
-    QUANTITY,
-    PRICE,
-    AMOUNT,
-    CURRENCY,
-    STATUS,
-    SETTLEMENT_DATE,
-    PORTFOLIO_ID,
-    INSTRUMENT_ID,
-    COUNTERPARTY_ID,
-    CREATED_AT
-) VALUES
-      (
-          1,
-          DATE '2026-01-10',
-          'BUY',
-          50000,
-          98.50,
-          4925000,
-          'CLP',
-          'SETTLED',
-          DATE '2026-01-12',
-          100,
-          1,
-          1,
-          CURRENT_TIMESTAMP
-      ),
-
-      (
-          2,
-          DATE '2026-01-15',
-          'BUY',
-          10000,
-          102.30,
-          1023000,
-          'CLF',
-          'SETTLED',
-          DATE '2026-01-17',
-          100,
-          2,
-          1,
-          CURRENT_TIMESTAMP
-      ),
-
-      (
-          3,
-          DATE '2026-01-20',
-          'BUY',
-          5000,
-          2350,
-          11750000,
-          'CLP',
-          'SETTLED',
-          DATE '2026-01-22',
-          200,
-          3,
-          4,
-          CURRENT_TIMESTAMP
-      );
+INSERT INTO TX_TRANSACTION VALUES (1, DATE '2026-01-10', 'BUY', 50000, 98.50, 4925000, 'CLP', 'SETTLED', DATE '2026-01-12', 100, 1, 1, CURRENT_TIMESTAMP);
+INSERT INTO TX_TRANSACTION VALUES (2, DATE '2026-01-15', 'BUY', 10000, 102.30, 1023000, 'CLF', 'SETTLED', DATE '2026-01-17', 100, 2, 1, CURRENT_TIMESTAMP);
+INSERT INTO TX_TRANSACTION VALUES (3, DATE '2026-01-20', 'BUY', 5000, 2350, 11750000, 'CLP', 'SETTLED', DATE '2026-01-22', 200, 3, 4, CURRENT_TIMESTAMP);
+INSERT INTO TX_TRANSACTION VALUES (4, DATE '2026-02-01', 'BUY', 2000000, 99.75, 1995000, 'USD', 'SETTLED', DATE '2026-02-03', 100, 4, 5, CURRENT_TIMESTAMP);
+INSERT INTO TX_TRANSACTION VALUES (5, DATE '2026-02-10', 'BUY', 3000000, 100.10, 3003000, 'USD', 'SETTLED', DATE '2026-02-12', 100, 5, 5, CURRENT_TIMESTAMP);
+INSERT INTO TX_TRANSACTION VALUES (6, DATE '2026-02-15', 'SELL', 25000, 99.20, 2480000, 'CLP', 'SETTLED', DATE '2026-02-17', 100, 1, 8, CURRENT_TIMESTAMP);
+INSERT INTO TX_TRANSACTION VALUES (7, DATE '2026-03-01', 'BUY', 100000, 10.50, 1050000, 'CLP', 'APPROVED', DATE '2026-03-03', 200, 6, 1, CURRENT_TIMESTAMP);
+INSERT INTO TX_TRANSACTION VALUES (8, DATE '2026-03-05', 'COUPON', 50000, 3.50, 1750, 'CLP', 'SETTLED', DATE '2026-03-05', 100, 1, 2, CURRENT_TIMESTAMP);
+INSERT INTO TX_TRANSACTION VALUES (9, DATE '2026-03-10', 'BUY', 5000000, 100.00, 5000000, 'USD', 'PENDING', NULL, 300, 7, 5, CURRENT_TIMESTAMP);
+INSERT INTO TX_TRANSACTION VALUES (10, DATE '2026-03-15', 'SELL', 2500, 2480, 6200000, 'CLP', 'PENDING', NULL, 200, 3, 9, CURRENT_TIMESTAMP);
+INSERT INTO TX_TRANSACTION VALUES (11, DATE '2026-03-20', 'DIVIDEND', 5000, 120, 600000, 'CLP', 'SETTLED', DATE '2026-03-22', 200, 3, 3, CURRENT_TIMESTAMP);
+INSERT INTO TX_TRANSACTION VALUES (12, DATE '2026-04-01', 'BUY', 1000000, 98.90, 989000, 'USD', 'APPROVED', DATE '2026-04-03', 300, 4, 4, CURRENT_TIMESTAMP);
+INSERT INTO TX_TRANSACTION VALUES (13, DATE '2026-04-05', 'MATURITY', 100000, 100.00, 10000000, 'CLP', 'SETTLED', DATE '2026-04-05', 100, 8, 3, CURRENT_TIMESTAMP);
+INSERT INTO TX_TRANSACTION VALUES (14, DATE '2026-04-10', 'SELL', 1500000, 100.50, 1507500, 'USD', 'CANCELLED', NULL, 100, 5, 5, CURRENT_TIMESTAMP);
+INSERT INTO TX_TRANSACTION VALUES (15, DATE '2026-04-12', 'BUY', 20000, 101.20, 2024000, 'CLF', 'PENDING', NULL, 100, 2, 8, CURRENT_TIMESTAMP);
