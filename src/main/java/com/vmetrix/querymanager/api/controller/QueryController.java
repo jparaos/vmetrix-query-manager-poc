@@ -3,46 +3,39 @@ package com.vmetrix.querymanager.api.controller;
 import com.vmetrix.querymanager.api.request.QueryBuildRequest;
 import com.vmetrix.querymanager.api.response.QueryBuildResponse;
 import com.vmetrix.querymanager.api.response.ValidationResponse;
+import com.vmetrix.querymanager.query.engine.QueryEngine;
 import com.vmetrix.querymanager.shared.constants.ApiPaths;
-import com.vmetrix.querymanager.validation.service.ValidationService;
-import com.vmetrix.querymanager.validation.service.ValidationResponseMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(ApiPaths.QUERY)
 public class QueryController {
 
-    private final ValidationService validationService;
+    private final QueryEngine queryEngine;
 
-    private final ValidationResponseMapper validationResponseMapper;
-
-    @PostMapping("/validate")
+    @PostMapping(ApiPaths.QUERY_VALIDATE)
     public ResponseEntity<ValidationResponse> validate(
             @Valid @RequestBody QueryBuildRequest request
     ) {
 
-        ValidationResponse response =
-                validationResponseMapper.map(
-                        validationService.validate(null)
-                );
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(
+                queryEngine.validate(request)
+        );
     }
 
-    @PostMapping("/build")
+    @PostMapping(ApiPaths.QUERY_BUILD)
     public ResponseEntity<QueryBuildResponse> build(
             @Valid @RequestBody QueryBuildRequest request
     ) {
-
+        log.info("Received query build request");
         return ResponseEntity.ok(
-                QueryBuildResponse.builder()
-                        .sql("-- SQL generation pending")
-                        .build()
+                queryEngine.build(request)
         );
     }
 }
