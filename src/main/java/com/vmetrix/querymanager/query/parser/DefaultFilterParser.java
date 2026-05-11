@@ -22,14 +22,14 @@ public class DefaultFilterParser
 
     @Override
     public FilterNode parse(
-            FilterGroupRequest request
+            Object request
     ) {
 
         if (request == null) {
             return null;
         }
 
-        return parseGroup(request);
+        return (FilterNode) parseCondition(request);
     }
 
     private GroupNode parseGroup(
