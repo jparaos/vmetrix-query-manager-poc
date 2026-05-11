@@ -1,6 +1,8 @@
 package com.vmetrix.querymanager.query.validator;
 
+import com.vmetrix.querymanager.metadata.service.EntityMetadataService;
 import com.vmetrix.querymanager.metadata.service.FieldMetadataService;
+import com.vmetrix.querymanager.metadata.service.RelationshipMetadataService;
 import com.vmetrix.querymanager.query.model.ConditionNode;
 import com.vmetrix.querymanager.query.model.FilterNode;
 import com.vmetrix.querymanager.query.model.GroupNode;
@@ -20,6 +22,15 @@ public class FieldValidationRule
         implements QueryValidationRule {
 
     private final FieldMetadataService fieldMetadataService;
+
+    private final EntityMetadataService entityMetadataService;
+
+    private final RelationshipMetadataService relationshipMetadataService;
+
+    private boolean isValidEntityReference(String name) {
+        return entityMetadataService.exists(name)
+                || relationshipMetadataService.isAlias(name);
+    }
 
     @Override
     public List<ValidationError> validate(QueryDefinition queryDefinition) {
@@ -42,6 +53,10 @@ public class FieldValidationRule
 
         for (SelectField selectField :
                 queryDefinition.getSelectFields()) {
+
+            if (!isValidEntityReference(selectField.getEntity())) {
+                continue;
+            }
 
             if (!fieldMetadataService.exists(
                     selectField.getEntity(),
@@ -72,6 +87,10 @@ public class FieldValidationRule
         for (SortDefinition sort :
                 queryDefinition.getSorting()) {
 
+            if (!isValidEntityReference(sort.getEntity())) {
+                continue;
+            }
+
             if (!fieldMetadataService.exists(
                     sort.getEntity(),
                     sort.getField()
@@ -99,6 +118,10 @@ public class FieldValidationRule
         }
 
         if (node instanceof ConditionNode conditionNode) {
+
+            if (!isValidEntityReference(conditionNode.getEntity())) {
+                return;
+            }
 
             if (!fieldMetadataService.exists(
                     conditionNode.getEntity(),
