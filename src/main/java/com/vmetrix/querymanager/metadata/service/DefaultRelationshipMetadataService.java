@@ -44,6 +44,21 @@ public class DefaultRelationshipMetadataService
     }
 
     @Override
+    public boolean isAlias(String name) {
+
+        return registryService.getRegistry()
+                .getRelationships()
+                .stream()
+                .anyMatch(r -> r.getAlias().equals(name));
+    }
+
+    @Override
+    public String resolveTargetEntity(String alias) {
+
+        return getRelationshipByAlias(alias).getTargetEntity();
+    }
+
+    @Override
     public RelationshipMetadata findByEntities(
             String sourceEntity,
             String targetEntity

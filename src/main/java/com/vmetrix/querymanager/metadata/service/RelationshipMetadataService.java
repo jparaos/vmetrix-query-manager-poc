@@ -14,4 +14,8 @@ public interface RelationshipMetadataService {
             String sourceEntity,
             String targetEntity
     );
+
+    boolean isAlias(String name);
+
+    String resolveTargetEntity(String alias);
 }

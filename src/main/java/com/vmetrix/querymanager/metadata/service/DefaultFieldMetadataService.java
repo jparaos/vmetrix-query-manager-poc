@@ -14,14 +14,26 @@ public class DefaultFieldMetadataService
 
     private final EntityMetadataService entityMetadataService;
 
+    private final RelationshipMetadataService relationshipMetadataService;
+
+    private String resolveEntityName(String entityNameOrAlias) {
+        if (!entityMetadataService.exists(entityNameOrAlias)
+                && relationshipMetadataService.isAlias(entityNameOrAlias)) {
+            return relationshipMetadataService.resolveTargetEntity(entityNameOrAlias);
+        }
+        return entityNameOrAlias;
+    }
+
     @Override
     public FieldMetadata getField(
             String entityName,
             String fieldName
     ) {
 
+        String resolved = resolveEntityName(entityName);
+
         EntityMetadata entity =
-                entityMetadataService.getEntity(entityName);
+                entityMetadataService.getEntity(resolved);
 
         return entity.getFields()
                 .stream()
@@ -46,12 +58,14 @@ public class DefaultFieldMetadataService
             String fieldName
     ) {
 
-        if (!entityMetadataService.exists(entityName)) {
+        String resolved = resolveEntityName(entityName);
+
+        if (!entityMetadataService.exists(resolved)) {
             return false;
         }
 
         EntityMetadata entity =
-                entityMetadataService.getEntity(entityName);
+                entityMetadataService.getEntity(resolved);
 
         return entity.getFields()
                 .stream()
